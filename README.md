@@ -71,6 +71,7 @@ Update your src/main/resources/application.properties to connect to the schema:
 
 📂 Folder Structure
 
+```
 Telecom_MultiAsset_Distribution_System/
 ├── .mvn/                       # Maven Wrapper files
 ├── Capstone/                   # Root project folder
@@ -89,4 +90,6 @@ Telecom_MultiAsset_Distribution_System/
 ├── .gitignore                  # Files to exclude from Git
 ├── HELP.md                     # Spring Boot help guide
 └── README.md                   # Project documentation
+```
+
 
