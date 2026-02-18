@@ -8,7 +8,7 @@ A comprehensive telecom investment platform that allows users to manage digital 
 The system runs on a MySQL backend named `telecom_investment`. The schema is designed for data integrity with relational mapping between users and their asset holdings.
 
 ### Core Tables:
-* **`users`**: Stores profile information, encrypted passwords, and wallet balances.
+* **`users`**: Stores profile information,encrypted passwords, and wallet balances.
 * **`towers`**: Manages telecom tower inventory and available shares.
 * **`user_shares`**: A junction table tracking which user owns what percentage of a specific tower.
 
