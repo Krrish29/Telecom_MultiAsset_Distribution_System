@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="b532331c-8b37-4464-a8f4-79e2d94d1269" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Capstone/src/main/java/batch_2/capstone/model/PendingUser.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Capstone/src/main/java/batch_2/capstone/repository/PendingUserRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Capstone/src/main/resources/templates/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Capstone/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Capstone/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Capstone/src/main/java/batch_2/capstone/controller/InvestmentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Capstone/src/main/java/batch_2/capstone/controller/InvestmentController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Capstone/src/main/java/batch_2/capstone/model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/Capstone/src/main/java/batch_2/capstone/model/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Capstone/src/main/java/batch_2/capstone/model/UserShare.java" beforeDir="false" afterPath="$PROJECT_DIR$/Capstone/src/main/java/batch_2/capstone/model/UserShare.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Capstone/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/Capstone/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Capstone/src/main/resources/static/index.html" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/Capstone" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "Krrish29"
+  }
+}]]></component>
+  <component name="GitLabMergeRequestFiltersHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPENED",
+    "assignee": {
+      "type": "org.jetbrains.plugins.gitlab.mergerequest.ui.filters.GitLabMergeRequestsFiltersValue.MergeRequestsMemberFilterValue.MergeRequestsAssigneeFilterValue",
+      "username": "KrrishGarg",
+      "fullname": "Krrish Garg"
+    }
+  }
+}]]></component>
+  <component name="GitLabMergeRequestsSettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "first": "https://gitlab.com/harsh-shukla2/Capstone.git",
+    "second": "94aba61e-029c-46b7-8a4f-6f45d1319fe9"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/Krrish29/Telecom_MultiAsset_Distribution_System.git",
+    "accountId": "c87883a8-f08c-48bc-b2c2-880e171bff6c"
+  }
+}]]></component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHomeTypeForPersistence" value="WRAPPER" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="McpProjectServerCommands">
+    <commands />
+    <urls />
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 0
+}]]></component>
+  <component name="ProjectId" id="39pV1I9WaRzyLeBjHsHGijHe8qB" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.MCP Project settings loaded": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "Spring Boot.CapstoneApplication.executor": "Run",
+    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
+    "git-widget-placeholder": "main",
+    "junie.onboarding.icon.badge.shown": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/krrish.garg/Documents/Capstone (5)",
+    "to.speed.mode.migration.done": "true"
+  }
+}]]></component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-30f59d01ecdd-26cb7f24e5b0-intellij.indexing.shared.core-IU-253.29346.240" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="b532331c-8b37-4464-a8f4-79e2d94d1269" name="Changes" comment="" />
+      <created>1771392782746</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1771392782746</updated>
+    </task>
+    <servers />
+  </component>
+</project>
