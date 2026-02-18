@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | Telecom Investment</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-light: #6366f1;
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --bg-light: #f8fafc;
+            --card-bg: #ffffff;
+            --text-dark: #0f172a;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+            --radius: 16px;
+        }
+
+        body { background: var(--bg-light); font-family: 'Inter', sans-serif; color: var(--text-dark); }
+
+        /* ================= TOAST POPUPS ================= */
+        #toast-container { position: fixed; top: 20px; right: 20px; z-index: 9999; pointer-events: none; }
+        .toast-popup {
+            pointer-events: auto; min-width: 300px; background: white; border-radius: 12px;
+            padding: 1rem 1.25rem; margin-bottom: 1rem; box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            display: flex; align-items: center; justify-content: space-between;
+            border-left: 6px solid var(--primary); animation: slideIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+        .toast-popup.success { border-left-color: var(--success); }
+        .toast-popup.danger { border-left-color: var(--danger); }
+        .toast-popup.warning { border-left-color: var(--warning); }
+        .toast-content { display: flex; align-items: center; gap: 12px; font-weight: 500; }
+        @keyframes slideIn { from { transform: translateX(120%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+        @keyframes slideOut { from { transform: translateX(0); opacity: 1; } to { transform: translateX(120%); opacity: 0; } }
+        .toast-exit { animation: slideOut 0.3s ease forwards; }
+
+        /* ================= UI COMPONENTS ================= */
+        .header-section { background: white; border-radius: var(--radius); padding: 1.5rem 2rem; margin-bottom: 2rem; border: 1px solid var(--border-color); }
+        .brand-title { font-weight: 800; font-size: 1.8rem; color: var(--primary); }
+        .logout-btn { background: var(--danger); border: none; font-weight: 600; border-radius: 50px; padding: 0.6rem 1.5rem; color: white; }
+        .wallet-section { background: white; border-radius: var(--radius); padding: 2.5rem; margin-bottom: 2.5rem; border: 1px solid var(--border-color); text-align: center; }
+        .balance-badge { font-size: 3.5rem; font-weight: 800; color: var(--primary); margin: 1rem 0; }
+        .nav-pills { background: white; border-radius: var(--radius); padding: 0.5rem; border: 1px solid var(--border-color); }
+        .nav-pills .nav-link { border-radius: 12px; font-weight: 600; color: var(--text-muted); }
+        .nav-pills .nav-link.active { background: var(--primary); color: white; }
+        .card { border-radius: var(--radius); border: 1px solid var(--border-color); transition: 0.3s ease; }
+        .card:hover { transform: translateY(-4px); box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
+        .progress { height: 10px; border-radius: 10px; background: #e2e8f0; }
+        .btn-invest { background: var(--primary); border: none; color: white; }
+        .btn-purchase { background: var(--success); border: none; color: white; font-weight: 700; }
+        .cost-summary { background: var(--bg-light); border-radius: 12px; padding: 15px; border: 1px dashed var(--border-color); }
+    </style>
+</head>
+<body>
+
+<div id="toast-container"></div>
+
+<div class="container py-4">
+    <div class="header-section d-flex justify-content-between align-items-center">
+        <h1 class="brand-title m-0"><i class="fas fa-broadcast-tower me-2"></i> Telecom Invest</h1>
+        <form th:action="@{/logout}" method="post">
+            <button type="submit" class="btn logout-btn"><i class="fas fa-sign-out-alt me-2"></i> Logout</button>
+        </form>
+    </div>
+
+    <input type="hidden" id="loggedInUserId" th:value="${user.userId}">
+
+    <div class="wallet-section">
+        <div class="text-muted">Welcome back, <span th:text="${user.fullName}">Investor</span></div>
+        <div class="balance-badge">$<span id="userBalanceVal" th:text="${user.walletBalance}">0.00</span></div>
+        <div class="d-flex justify-content-center gap-2">
+            <span class="badge bg-light text-dark border p-2 px-3 rounded-pill">ID: <span th:text="${user.userId}"></span></span>
+            <span class="badge bg-light text-dark border p-2 px-3 rounded-pill" th:text="${user.email}"></span>
+        </div>
+    </div>
+
+    <ul class="nav nav-pills nav-fill mb-4" id="pills-tab" role="tablist">
+        <li class="nav-item"><button class="nav-link active" id="towers-tab" data-bs-toggle="pill" data-bs-target="#towers" onclick="loadTowers()"><i class="fas fa-tower-cell me-2"></i> Towers</button></li>
+        <li class="nav-item"><button class="nav-link" id="invest-tab" data-bs-toggle="pill" data-bs-target="#invest"><i class="fas fa-shopping-cart me-2"></i> Buy</button></li>
+        <li class="nav-item"><button class="nav-link" id="portfolio-tab" data-bs-toggle="pill" data-bs-target="#portfolio" onclick="loadMyPortfolio()"><i class="fas fa-briefcase me-2"></i> Portfolio</button></li>
+    </ul>
+
+    <div class="tab-content">
+        <div class="tab-pane fade show active" id="towers">
+            <div id="towerList" class="row g-4"></div>
+        </div>
+
+        <div class="tab-pane fade" id="invest">
+            <div class="card p-4">
+                <h4 class="fw-bold mb-4">Purchase Shares</h4>
+                <div class="row g-3">
+                    <div class="col-md-3">
+                        <label class="form-label fw-bold">Tower ID</label>
+                        <input type="number" id="invTowerId" class="form-control" readonly placeholder="Select a tower">
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label fw-bold">Percentage (%)</label>
+                        <input type="number" id="invPerc" class="form-control" step="0.1" oninput="updateCost()">
+                        <div id="availInfo" class="small text-primary mt-1"></div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="cost-summary">
+                            <label class="small text-muted d-block">Estimated Cost</label>
+                            <span class="h5 fw-bold text-success mb-0">$<span id="displayCost">0.00</span></span>
+                        </div>
+                    </div>
+                    <div class="col-md-3 d-flex align-items-end">
+                        <button class="btn btn-purchase w-100 py-2 h-50" onclick="buyShares()">Confirm Purchase</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-pane fade" id="portfolio">
+            <div id="portfolioDisplay" class="row g-4"></div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    const USER_ID = document.getElementById('loggedInUserId').value;
+    const API_BASE = "/api/investment";
+    const PRICE_PER_PERCENT = 100; // $100 for 1%
+    let currentTowerLimit = 0;
+
+    function showAlert(message, type = 'info') {
+        const container = document.getElementById('toast-container');
+        const toast = document.createElement('div');
+        toast.className = `toast-popup ${type}`;
+        const icons = { success: 'fa-check-circle', danger: 'fa-exclamation-circle', warning: 'fa-triangle-exclamation', info: 'fa-info-circle' };
+        toast.innerHTML = `<div class="toast-content"><i class="fas ${icons[type]} text-${type === 'info' ? 'primary' : type}"></i><span>${message}</span></div><button class="btn-close ms-3" style="font-size: 0.7rem;"></button>`;
+        container.appendChild(toast);
+        const remove = () => { toast.classList.add('toast-exit'); toast.addEventListener('animationend', () => toast.remove()); };
+        const timeout = setTimeout(remove, 5000);
+        toast.querySelector('.btn-close').onclick = () => { clearTimeout(timeout); remove(); };
+    }
+
+    async function loadTowers() {
+        const list = document.getElementById('towerList');
+        try {
+            const res = await fetch(`${API_BASE}/towers`);
+            const towers = await res.json();
+            list.innerHTML = towers.map(t => {
+                const available = (100 - t.currentOccupancy).toFixed(1);
+                const isSoldOut = available <= 0;
+                return `
+                <div class="col-md-4">
+                    <div class="card h-100 p-3">
+                        <div class="d-flex justify-content-between">
+                            <h5 class="fw-bold">${t.towerName}</h5>
+                            <span class="badge ${isSoldOut ? 'bg-danger' : 'bg-success'}">${isSoldOut ? 'Sold Out' : available + '% Available'}</span>
+                        </div>
+                        <p class="text-muted small mb-2"><i class="fas fa-map-marker-alt"></i> ${t.location}</p>
+                        <div class="small d-flex justify-content-between mb-1">
+                            <span>Occupancy</span>
+                            <span>${t.currentOccupancy}%</span>
+                        </div>
+                        <div class="progress mb-3">
+                            <div class="progress-bar" style="width: ${t.currentOccupancy}%"></div>
+                        </div>
+                        <button class="btn ${isSoldOut ? 'btn-secondary disabled' : 'btn-invest'} w-100"
+                                onclick="quickInvest(${t.towerId}, ${available})">
+                            ${isSoldOut ? 'Sold Out' : 'Invest Now'}
+                        </button>
+                    </div>
+                </div>`;
+            }).join('');
+        } catch (e) { showAlert("Failed to load towers", "danger"); }
+    }
+
+    function quickInvest(id, available) {
+        currentTowerLimit = available;
+        document.getElementById('invTowerId').value = id;
+        document.getElementById('availInfo').innerText = `Max: ${available}% available`;
+        document.getElementById('invPerc').max = available;
+        document.getElementById('invPerc').value = "";
+        updateCost();
+        bootstrap.Tab.getOrCreateInstance(document.querySelector('#invest-tab')).show();
+    }
+
+    function updateCost() {
+        const perc = parseFloat(document.getElementById('invPerc').value) || 0;
+        const total = (perc * PRICE_PER_PERCENT).toFixed(2);
+        document.getElementById('displayCost').innerText = total;
+    }
+
+    async function buyShares() {
+        const perc = parseFloat(document.getElementById('invPerc').value);
+        const towerId = parseInt(document.getElementById('invTowerId').value);
+
+        if (!towerId || isNaN(perc) || perc <= 0) {
+            showAlert("Please enter valid investment details", "warning");
+            return;
+        }
+
+        if (perc > currentTowerLimit) {
+            showAlert(`Cannot buy ${perc}%. Only ${currentTowerLimit}% available.`, "danger");
+            return;
+        }
+
+        try {
+            const res = await fetch(`${API_BASE}/buy-shares`, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ user: {userId: USER_ID}, tower: {towerId}, sharePercentage: perc })
+            });
+
+            if (res.ok) {
+                showAlert("Investment Successful!", "success");
+                setTimeout(() => window.location.reload(), 1500);
+            } else {
+                const msg = await res.text();
+                showAlert(msg, "danger");
+            }
+        } catch (e) { showAlert("Network Error", "danger"); }
+    }
+
+    async function loadMyPortfolio() {
+        const display = document.getElementById('portfolioDisplay');
+        try {
+            const res = await fetch(`${API_BASE}/my-shares/${USER_ID}`);
+            if (res.status === 204) {
+                display.innerHTML = '<div class="col-12 text-center py-5">No investments yet.</div>';
+                return;
+            }
+            const data = await res.json();
+            display.innerHTML = data.map(s => `
+                <div class="col-md-6">
+                    <div class="card p-3">
+                        <h6 class="fw-bold">${s.tower.towerName}</h6>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span>Ownership: ${s.sharePercentage}%</span>
+                            <span class="text-primary fw-bold">$${(s.sharePercentage * PRICE_PER_PERCENT).toFixed(2)}</span>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        } catch (e) { showAlert("Failed to load portfolio", "danger"); }
+    }
+
+    window.onload = loadTowers;
+</script>
+</body>
+</html>

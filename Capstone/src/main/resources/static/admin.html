@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Asset Management - Admin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-50 p-8">
+<div class="max-w-6xl mx-auto">
+    <h1 class="text-3xl font-bold text-slate-800 mb-8">Tower Asset Management</h1>
+
+    <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 mb-10">
+        <h2 class="text-lg font-semibold mb-4 text-slate-700">Add New Tower (SQL Style)</h2>
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <input id="towerName" type="text" placeholder="Tower Name (e.g. Chennai-01)" class="border p-2 rounded-lg">
+            <input id="location" type="text" placeholder="Location" class="border p-2 rounded-lg">
+            <input id="totalShares" type="number" placeholder="Total Shares (e.g. 100)" class="border p-2 rounded-lg">
+            <button onclick="saveTower()" class="bg-indigo-600 text-white font-bold py-2 rounded-lg hover:bg-indigo-700 transition">
+                Insert Tower
+            </button>
+        </div>
+    </div>
+
+    <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+        <table class="w-full text-left">
+            <thead class="bg-slate-50 border-b border-slate-200 text-slate-500 uppercase text-xs">
+            <tr>
+                <th class="p-4">Investor Details</th>
+                <th class="p-4">Tower Asset</th>
+                <th class="p-4">Location</th>
+                <th class="p-4">Share %</th>
+                <th class="p-4 text-right">Actions</th>
+            </tr>
+            </thead>
+            <tbody id="adminTableBody" class="divide-y divide-slate-100">
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    const API_BASE = "http://localhost:9000/api/admin";
+
+    async function loadAdminData() {
+        const res = await fetch(`${API_BASE}/user-investments`);
+        const data = await res.json();
+        const tbody = document.getElementById('adminTableBody');
+        tbody.innerHTML = '';
+
+        data.forEach(user => {
+            user.shares.forEach(share => {
+                tbody.innerHTML += `
+                        <tr class="hover:bg-slate-50 transition">
+                            <td class="p-4">
+                                <span class="font-bold text-slate-700">${user.fullName}</span><br>
+                                <span class="text-xs text-slate-400">${user.email}</span>
+                            </td>
+                            <td class="p-4 font-semibold text-indigo-600">${share.towerName}</td>
+                            <td class="p-4 text-slate-600">${share.location || 'N/A'}</td>
+                            <td class="p-4">
+                                <span class="bg-emerald-100 text-emerald-700 px-2 py-1 rounded text-xs font-bold">
+                                    ${share.percentage}%
+                                </span>
+                            </td>
+                            <td class="p-4 text-right">
+                                <button onclick="deleteRow(${share.shareId})" class="text-red-400 hover:text-red-600">Delete</button>
+                            </td>
+                        </tr>`;
+            });
+        });
+    }
+
+    async function saveTower() {
+        const towerData = {
+            towerName: document.getElementById('towerName').value,
+            location: document.getElementById('location').value,
+            totalShares: parseInt(document.getElementById('totalShares').value) || 100
+        };
+
+        await fetch(`${API_BASE}/towers`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(towerData)
+        });
+
+        alert("Tower Inserted Successfully!");
+        loadAdminData();
+    }
+
+    async function deleteRow(id) {
+        if(confirm("Delete this investment?")) {
+            await fetch(`${API_BASE}/investment/${id}`, { method: 'DELETE' });
+            loadAdminData();
+        }
+    }
+
+    loadAdminData();
+</script>
+</body>
+</html>
