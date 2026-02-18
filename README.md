@@ -55,10 +55,12 @@ CREATE TABLE user_shares (
 2. Backend Configuration
 Update your src/main/resources/application.properties to connect to the schema:
 
-** spring.datasource.url=jdbc:mysql://localhost:3306/telecom_investment
-** spring.datasource.username=YOUR_MYSQL_USERNAME
-** spring.datasource.password=YOUR_MYSQL_PASSWORD
-** spring.jpa.hibernate.ddl-auto=update
+```
+ spring.datasource.url=jdbc:mysql://localhost:3306/telecom_investment
+ spring.datasource.username=YOUR_MYSQL_USERNAME
+ spring.datasource.password=YOUR_MYSQL_PASSWORD
+ spring.jpa.hibernate.ddl-auto=update
+ ```
 
 🎨 UI Features
 * Theme: Modern Deep Sea Blue glassmorphism.
