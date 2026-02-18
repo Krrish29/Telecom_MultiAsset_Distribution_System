@@ -71,9 +71,22 @@ Update your src/main/resources/application.properties to connect to the schema:
 
 📂 Folder Structure
 
-Capstone (5)/
-├── Capstone/
-│   ├── src/main/java         # Spring Boot Controllers & Entities
-│   ├── src/main/resources/templates  # Blue-themed Thymeleaf Pages
-│   └── pom.xml               # Dependencies (MySQL Connector, JPA)
-└── README.md
+Telecom_MultiAsset_Distribution_System/
+├── .mvn/                       # Maven Wrapper files
+├── Capstone/                   # Root project folder
+│   ├── src/
+│   │   ├── main/
+│   │   │   ├── java/           # Java Source Code (Spring Boot)
+│   │   │   │   └── com/telecom/
+│   │   │   │       ├── controller/
+│   │   │   │       ├── model/
+│   │   │   │       └── service/
+│   │   │   └── resources/
+│   │   │       ├── static/     # CSS, JS, and Images
+│   │   │       └── templates/  # Thymeleaf HTML (Login/Signup)
+│   ├── target/                 # Compiled bytecode (ignored by git)
+│   └── pom.xml                 # Maven project dependencies
+├── .gitignore                  # Files to exclude from Git
+├── HELP.md                     # Spring Boot help guide
+└── README.md                   # Project documentation
+
